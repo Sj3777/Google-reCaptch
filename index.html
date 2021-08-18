@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://www.google.com/recaptcha/api.js?render=reCAPTCHA_site_key"></script>
+</head>
+<body>
+    hello sj
+    <div class="container">
+    <form id="subscribeForm">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+   
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password">
+  </div>
+  
+  <div class="form-group">
+      <div class="g-recaptcha" data-sitekey="6LdJgQscAAAAADkMIoRMqVgqeKeFbzPFVzjaxFuy"></div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<script>
+    document.getElementById("subscribeForm").addEventListener("submit",submitForm);
+
+    function submitForm(e){
+        e.preventDefault();
+        const email=document.querySelector("#email").value;
+        const password=document.querySelector("#password").value;
+        const captcha=document.querySelector("#g-recaptcha-response").value;
+
+        fetch("/subscribe", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({email,password,captcha})
+        })
+        .then((res)=>{
+            res.json()
+        })
+        .then((data)=>{
+            console.log(data)
+            alert(data.msg)
+        })
+    }
+</script>
+</body>
+</html>
